@@ -6,7 +6,7 @@
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:56:39 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/23 14:27:51 by wquenten         ###   ########.fr       */
+/*   Updated: 2020/11/23 16:33:31 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void		*free_all(char **table, int cols)
 	int i;
 
 	i = 0;
-	while (i < cols && table[i])
+	while (i <= cols && table[i])
 	{
 		free(table[i]);
 		i++;
@@ -79,7 +79,7 @@ char			**ft_split(char const *s, char c)
 		if (!(len = splitlen(s, c)))
 			break ;
 		if (!(tab[i] = (char *)malloc(sizeof(char) * (len + 1))))
-			return (free_all(tab, col + 1));
+			return (free_all(tab, i));
 		while (*s == c)
 			s++;
 		ft_memcpy(tab[i], s, len);
