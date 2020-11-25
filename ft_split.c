@@ -5,87 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/12 11:56:39 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/23 16:33:31 by wquenten         ###   ########.fr       */
+/*   Created: 2020/11/24 16:56:19 by wquenten          #+#    #+#             */
+/*   Updated: 2020/11/24 16:58:34 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		*free_all(char **table, int cols)
+static int	ft_count_words(const char *s, char c)
 {
-	int i;
+	int		words_c;
+	int		i;
 
+	words_c = 0;
 	i = 0;
-	while (i <= cols && table[i])
-	{
-		free(table[i]);
-		i++;
-	}
-	free(table);
-	return (NULL);
-}
-
-static int		colcount(char const *s, char c)
-{
-	int cols;
-	int instr;
-
-	instr = 0;
-	cols = 0;
-	while (*s == c)
-		s++;
 	while (*s)
 	{
-		if (*s == c)
-			instr = 0;
-		else if (!instr)
+		if (i == 1 && *s == c)
+			i = 0;
+		if (i == 0 && *s != c)
 		{
-			instr = 1;
-			cols++;
+			i = 1;
+			words_c++;
 		}
 		s++;
 	}
-	return (cols);
+	return (words_c);
 }
 
-static int		splitlen(const char *s, char c)
+char		**ft_split(char const *s, char c)
 {
-	int len;
-
-	len = 0;
-	while (*s == c)
-		s++;
-	while (s[len] && s[len] != c)
-		len++;
-	return (len);
-}
-
-char			**ft_split(char const *s, char c)
-{
-	int		col;
-	int		len;
+	int		words;
+	char	**new_str;
 	int		i;
-	char	**tab;
+	int		words_count;
+	int		start;
 
 	if (!s)
 		return (NULL);
-	col = colcount(s, c);
-	if (!(tab = (char **)malloc(sizeof(char *) * (col + 1))))
+	words = ft_count_words(s, c);
+	if (!(new_str = malloc(sizeof(char *) * (words + 1))))
 		return (NULL);
 	i = 0;
-	while (i < col)
+	words_count = -1;
+	while (++words_count < words)
 	{
-		if (!(len = splitlen(s, c)))
-			break ;
-		if (!(tab[i] = (char *)malloc(sizeof(char) * (len + 1))))
-			return (free_all(tab, i));
-		while (*s == c)
-			s++;
-		ft_memcpy(tab[i], s, len);
-		tab[i++][len] = '\0';
-		s += len;
+		while (s[i] && s[i] == c)
+			i++;
+		start = i;
+		while (s[i] && s[i] != c)
+			i++;
+		new_str[words_count] = ft_substr(s, start, i - start);
+		i++;
 	}
-	tab[i] = NULL;
-	return (tab);
+	new_str[words_count] = NULL;
+	return (new_str);
 }
