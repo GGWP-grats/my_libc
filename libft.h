@@ -69,5 +69,9 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),\
 											void (*del)(void *));
-
+void				ft_putchar(char c);
+void				ft_putstr(char *s);
+int					ft_ctod(char c);
+int					ft_intwid(long int i, int base);
+void				ft_putnbr_base(long int i, const char *base);
 #endif
