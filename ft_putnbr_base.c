@@ -2,23 +2,18 @@
 
 void	ft_putnbr_base(long int i, const char *base)
 {	
-	int len;
-	
-	len = ft_strlen(base);
-	if (len < 2 || ft_strchr(base, '+') || ft_strchr(base, '-'))
-		return ;
-	if (i < 0)
-		write(1, "-", 1);
-	else if (i == 0)
-		write(1, base, 1);
-	while (i)
-	{
-		write(1, &base[i % (len + 1)], 1);
-		i /= (long)len - 1;
-	}
-}
+	long len;
 
-int main(void)
-{
-	ft_putnbr_base((long)15,"0123456789abcdef");
+	len = ft_strlen(base);
+	if (i < 0 && (i = -i))
+		write(1, "-", 1);
+	if (i > len)
+	{
+		ft_putnbr_base(i / len, base);
+		ft_putnbr_base(i % len, base);
+	}
+	else if (i < len)
+	{
+		write(1, &base[i], 1);
+	}
 }
