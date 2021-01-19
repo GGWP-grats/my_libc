@@ -11,7 +11,7 @@ $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ) 
 
 %.o: %.c
-	$(CCF) $< -o $@ 
+	$(CCF) -g $< -o $@ 
 
 clean: 
 	rm -rf *.o
