@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intwid.c                                        :+:      :+:    :+:   */
+/*   ft_skip_atoi.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/23 06:22:20 by wquenten          #+#    #+#             */
-/*   Updated: 2021/01/23 06:22:23 by wquenten         ###   ########.fr       */
+/*   Created: 2021/01/23 05:53:52 by wquenten          #+#    #+#             */
+/*   Updated: 2021/01/23 06:20:44 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_intwid(long int i, int base)
+int			ft_skip_atoi(const char **format)
 {
-	int ret;
+	int i;
+	int sign;
 
-	ret = 0;
-	if (i <= 0)
-		ret++;
-	while (i && ++ret)
-		i /= base;
-	return (ret);
+	sign = 1;
+	i = 0;
+	if (**format == '+' || **format == '-')
+	{
+		if (**format == '-')
+			sign = -1;
+		(*format)++;
+	}
+	while (ft_isdigit(**format))
+	{
+		i = i * 10 + ft_ctod(**format);
+		(*format)++;
+	}
+	return (i * sign);
 }
