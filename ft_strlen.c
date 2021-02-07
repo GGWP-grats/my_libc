@@ -5,22 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/28 13:11:44 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/10 14:43:22 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 21:13:23 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 21:21:07 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stddef.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *s)
+size_t			ft_strlen(const char *s)
 {
-	const char *r;
+	const char	*p;
 
-	r = s;
-	if (!r)
-		return (0);
-	while (*(r++))
+	p = s;
+	while (*(p++))
 		;
-	return (r - s - 1);
+	return (p - 1 - s);
 }

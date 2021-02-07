@@ -5,59 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 16:56:19 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/24 16:58:34 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:54:19 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/07 00:01:23 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count_words(const char *s, char c)
+char		**splt_clr(char **p)
 {
-	int		words_c;
-	int		i;
+	int i;
 
-	words_c = 0;
-	i = 0;
+	i = -1;
+	while (p[++i] != NULL)
+		free(p[i]);
+	free(p);
+	return (NULL);
+}
+
+size_t		splt_strnum(char const *s, char c)
+{
+	size_t	n;
+	int		flag;
+
+	flag = 0;
+	n = 0;
 	while (*s)
 	{
-		if (i == 1 && *s == c)
-			i = 0;
-		if (i == 0 && *s != c)
-		{
-			i = 1;
-			words_c++;
-		}
+		if (!flag && *s != c && ++n)
+			flag = 1;
+		else if (*s == c)
+			flag = 0;
 		s++;
 	}
-	return (words_c);
+	return (n);
 }
 
 char		**ft_split(char const *s, char c)
 {
-	int		words;
-	char	**new_str;
-	int		i;
-	int		words_count;
-	int		start;
+	char	**p;
+	size_t	arr_len;
+	size_t	end;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
-	words = ft_count_words(s, c);
-	if (!(new_str = malloc(sizeof(char *) * (words + 1))))
+	arr_len = splt_strnum(s, c);
+	if (!(p = ft_calloc(arr_len + 1, sizeof(*p))))
 		return (NULL);
-	i = 0;
-	words_count = -1;
-	while (++words_count < words)
+	i = -1;
+	while (++i < arr_len)
 	{
-		while (s[i] && s[i] == c)
-			i++;
-		start = i;
-		while (s[i] && s[i] != c)
-			i++;
-		new_str[words_count] = ft_substr(s, start, i - start);
-		i++;
+		end = 0;
+		while (*s == c)
+			s++;
+		while (s[end] && s[end] != c)
+			end++;
+		if (*s && !(p[i] = ft_substr(s, 0, end)))
+			return (splt_clr(p));
+		s += end;
 	}
-	new_str[words_count] = NULL;
-	return (new_str);
+	return (p);
 }

@@ -10,7 +10,7 @@ all: $(NAME)
 $(NAME): $(OBJ) 
 	ar rc $(NAME) $(OBJ) 
 
-%.o: %.c
+%.o: %.c libft.h
 	$(CCF) -g $< -o $@ 
 
 clean: 

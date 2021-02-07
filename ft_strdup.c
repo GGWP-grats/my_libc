@@ -5,22 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 10:27:30 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/10 14:41:01 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:54:34 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 21:22:59 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *str)
 {
-	char *newstr;
+	char	*new;
+	size_t	len;
 
-	if (!(newstr = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1))))
+	len = ft_strlen(str);
+	if (!(new = malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	else
-	{
-		ft_memcpy(newstr, s1, sizeof(char) * (ft_strlen(s1) + 1));
-		return (newstr);
-	}
+	ft_strlcpy(new, (char *)str, len + 1);
+	return (new);
 }

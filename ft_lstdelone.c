@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 18:15:44 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/17 18:20:15 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:50:40 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 20:50:41 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	if (lst)
-	{
-		del(lst->content);
-		free(lst);
-	}
+	if (!lst)
+		return ;
+	del(lst->content);
+	free(lst);
 }

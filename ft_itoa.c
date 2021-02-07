@@ -5,77 +5,46 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 12:42:04 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/10 16:12:15 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:48:05 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 20:49:17 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		revstr(char *str)
+int			get_int_wid(int n)
 {
 	int		i;
-	int		k;
-	char	c;
 
 	i = 0;
-	k = 0;
-	while (str[++k])
-		;
-	k--;
-	while (i < k)
-	{
-		c = str[i];
-		str[i] = str[k];
-		str[k] = c;
-		i++;
-		k--;
-	}
-}
-
-static int		get_size_itoa(int n)
-{
-	int count;
-
-	count = 0;
-	if (n == 0)
-		return (2);
-	if (n < 0)
-	{
-		count++;
-		n *= -1;
-	}
-	while (n)
-	{
+	if (n <= 0)
+		i += 1;
+	while (n && ++i)
 		n /= 10;
-		count++;
-	}
-	return (count + 1);
+	return (i);
 }
 
-char			*ft_itoa(int n)
+char		*ft_itoa(int n)
 {
-	char			*str;
-	int				i;
-	unsigned int	num;
+	char	*s;
+	int		len;
+	int		sign;
+	long	l;
 
-	if (!(str = (char *)malloc(sizeof(char) * get_size_itoa(n))))
+	l = n;
+	len = get_int_wid(n);
+	if (!(s = malloc(sizeof(*s) * (len + 1))))
 		return (NULL);
-	i = 0;
-	if (n < 0)
-		num = -n;
+	if (l < 0 && (sign = 1)
+			&& (l = -l))
+		s[0] = '-';
 	else
-		num = n;
-	if (num == 0)
-		str[i++] = '0';
-	while (num)
+		sign = 0;
+	s[len] = '\0';
+	while (len-- > sign)
 	{
-		str[i++] = num % 10 + '0';
-		num /= 10;
+		s[len] = '0' + l % 10;
+		l /= 10;
 	}
-	if (n < 0)
-		str[i++] = '-';
-	str[i] = '\0';
-	revstr(str);
-	return (str);
+	return (s);
 }

@@ -5,21 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 15:04:03 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/17 15:11:56 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:50:59 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 20:51:00 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_list		*ft_lstlast(t_list *lst)
 {
-	if (lst)
-	{
-		while (lst->next)
-			lst = lst->next;
-		if (!(lst->next))
-			return (lst);
-	}
-	return (NULL);
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }

@@ -5,23 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/09 14:03:41 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/19 15:55:36 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:52:41 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 21:20:24 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void					*ft_memchr(const void *s, int c, size_t n)
 {
-	size_t			i;
+	const unsigned char *src;
+	unsigned int		i;
 
-	i = 0;
-	while (i < n)
-	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
-			return ((void *)s + i);
-		i++;
-	}
-	return (0);
+	i = -1;
+	src = s;
+	while (++i < n)
+		if (src[i] == (unsigned char)c)
+			return ((void *)&src[i]);
+	return (NULL);
 }

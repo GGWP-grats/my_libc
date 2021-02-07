@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 18:50:21 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/17 18:59:14 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:50:51 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 20:50:52 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
+	if (!lst)
+		return ;
 	while (lst)
 	{
 		f(lst->content);

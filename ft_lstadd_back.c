@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 15:28:30 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/17 16:23:19 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:49:32 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 20:49:57 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*last;
+	t_list	*cur;
 
-	if (!*lst)
-		*lst = new;
-	else
+	if (!lst)
+		return ;
+	if (*lst)
 	{
-		last = ft_lstlast(*lst);
-		last->next = new;
+		cur = *lst;
+		while (cur->next)
+			cur = cur->next;
+		cur->next = new;
 	}
+	else
+		*lst = new;
 }

@@ -5,31 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 17:44:55 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/10 18:00:14 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:57:06 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 21:14:36 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char		*ft_strmapi(char const *s,\
+			char (*f)(unsigned int, char))
 {
-	char	*ptr;
-	int		i;
+	char	*new;
+	size_t	i;
 
-	if (s)
-	{
-		if (!(ptr = (char *)malloc(ft_strlen(s) + 1)))
-			return (NULL);
-		i = 0;
-		while (s[i])
-		{
-			ptr[i] = (*f)(i, s[i]);
-			i++;
-		}
-		ptr[i] = '\0';
-		return (ptr);
-	}
-	else
+	if (!s || !f || !(new = (char *)malloc(ft_strlen(s) + 1)))
 		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		new[i] = (*f)(i, s[i]);
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }

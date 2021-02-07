@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/15 19:08:23 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/15 19:16:05 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:50:16 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 20:50:20 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
+	if (!lst)
+		return ;
 	new->next = *lst;
 	*lst = new;
 }

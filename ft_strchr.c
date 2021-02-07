@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 21:12:37 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/14 13:28:34 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:54:28 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 21:21:19 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	if (!*s && !c)
-		return ((char *)s);
-	while (*s)
-	{
-		if (*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
-		if (*s == (unsigned char)c)
-			return ((char *)s);
-	}
-	return (NULL);
+	int i;
+
+	i = -1;
+	while (s[++i])
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+	return (c == 0 ? (char *)&s[i] : NULL);
 }

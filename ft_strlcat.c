@@ -5,43 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/09 16:25:25 by wquenten          #+#    #+#             */
-/*   Updated: 2020/11/14 15:49:43 by wquenten         ###   ########.fr       */
+/*   Created: 2021/02/06 20:55:07 by wquenten          #+#    #+#             */
+/*   Updated: 2021/02/06 21:27:39 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_strnlen(char *s, size_t max)
+size_t		ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t len;
+	int		i;
+	int		ret;
 
-	len = 0;
-	while (*s && len < max)
+	i = 0;
+	ret = 0;
+	while (dst[i] && size--)
+		i++;
+	if (!dst[i] && size > 0)
 	{
-		len++;
-		s++;
-	}
-	return (len);
-}
-
-size_t			ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t dlen;
-	size_t slen;
-
-	dlen = ft_strnlen(dst, dstsize);
-	slen = ft_strlen(src);
-	if (dlen == dstsize)
-		return (dstsize + slen);
-	if (slen < dstsize - dlen)
-	{
-		ft_memcpy(dst + dlen, src, slen + 1);
+		dst += i;
+		ret += i;
+		i = -1;
+		while (src[++i] && size-- > 1)
+			dst[i] = src[i];
+		dst[i] = '\0';
+		return (ret + ft_strlen(src));
 	}
 	else
-	{
-		ft_memcpy(dst + dlen, src, dstsize - dlen - 1);
-		dst[dlen + (dstsize - dlen) - 1] = '\0';
-	}
-	return (dlen + slen);
+		return (i + ft_strlen(src));
 }
