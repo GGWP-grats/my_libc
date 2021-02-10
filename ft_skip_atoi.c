@@ -19,6 +19,8 @@ int			ft_skip_atoi(const char **s)
 
 	sign = 1;
 	i = 0;
+	while (ft_isspace(**s))
+		(*s)++;
 	if (**s == '+' || **s == '-')
 	{
 		if (**s == '-')
