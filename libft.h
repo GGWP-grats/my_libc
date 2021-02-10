@@ -12,9 +12,6 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
 # include <unistd.h>
 # include <limits.h>
 # include <sys/types.h>
@@ -22,6 +19,12 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
+# endif
+# ifndef FD_MAX
+#  define FD_MAX 4096
+# endif
 
 typedef struct		s_rem
 {
@@ -72,6 +75,7 @@ int					ft_isprint(int c);
 int					ft_isalnum(int c);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
+int					ft_isspace(int c);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
@@ -100,7 +104,7 @@ void				ft_putstr(char *s);
 int					ft_ctod(char c);
 int					ft_intwid(long int i, int base);
 void				ft_putnbr_base(long int i, const char *base);
-int					ft_skip_atoi(const char **s);
+int					ft_skip_atoi(char **s);
 int					get_next_line(int fd, char **line);
 int					read_line(int fd, char **line,\
 					t_rem *rm, t_head **lst_head);

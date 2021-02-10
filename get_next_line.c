@@ -83,7 +83,7 @@ int					read_line(int fd, char **line, t_rem *rm, t_head **lst_head)
 
 int					get_next_line(int fd, char **line)
 {
-	static t_rem	remainder[OPEN_MAX];
+	static t_rem	remainder[FD_MAX];
 	t_head			*lst_head;
 	ssize_t			endl;
 
