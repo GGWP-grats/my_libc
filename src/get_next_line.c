@@ -74,7 +74,7 @@ int					read_line(int fd, char **line, t_rem *rm, t_head **lst_head)
 			size = -1;
 	if ((*lst_head)->overall_size > 0 && size != -1
 		&& ((*line = gnl_concat(lst_head))))
-		return (size ? 1 : 0);
+		return (size ? ft_strlen(*line) : 0);
 	else if (size != -1)
 		return (gnl_clear(*lst_head, NULL, line, 0));
 	else
