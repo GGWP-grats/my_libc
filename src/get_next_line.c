@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 02:34:52 by wquenten          #+#    #+#             */
-/*   Updated: 2021/02/07 04:49:51 by wquenten         ###   ########.fr       */
+/*   Updated: 2021/01/13 02:47:01 by wquenten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
 
 int					find_endl(char *str, ssize_t size)
 {
@@ -74,7 +74,7 @@ int					read_line(int fd, char **line, t_rem *rm, t_head **lst_head)
 			size = -1;
 	if ((*lst_head)->overall_size > 0 && size != -1
 		&& ((*line = gnl_concat(lst_head))))
-		return (size ? ft_strlen(*line) : 0);
+		return (size ? 1 : 0);
 	else if (size != -1)
 		return (gnl_clear(*lst_head, NULL, line, 0));
 	else
@@ -83,7 +83,7 @@ int					read_line(int fd, char **line, t_rem *rm, t_head **lst_head)
 
 int					get_next_line(int fd, char **line)
 {
-	static t_rem	remainder[FD_MAX];
+	static t_rem	remainder[OPEN_MAX];
 	t_head			*lst_head;
 	ssize_t			endl;
 
