@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/06 20:54:19 by wquenten          #+#    #+#             */
-/*   Updated: 2021/02/07 00:01:23 by wquenten         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-char		**splt_clr(char **p)
+char	**splt_clr(char **p)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (p[++i] != NULL)
@@ -23,7 +11,7 @@ char		**splt_clr(char **p)
 	return (NULL);
 }
 
-size_t		splt_strnum(char const *s, char c)
+size_t	splt_strnum(char const *s, char c)
 {
 	size_t	n;
 	int		flag;
@@ -41,7 +29,7 @@ size_t		splt_strnum(char const *s, char c)
 	return (n);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**p;
 	size_t	arr_len;
@@ -51,7 +39,8 @@ char		**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	arr_len = splt_strnum(s, c);
-	if (!(p = ft_calloc(arr_len + 1, sizeof(*p))))
+	p = ft_calloc(arr_len + 1, sizeof(*p));
+	if (!p)
 		return (NULL);
 	i = -1;
 	while (++i < arr_len)
@@ -61,7 +50,8 @@ char		**ft_split(char const *s, char c)
 			s++;
 		while (s[end] && s[end] != c)
 			end++;
-		if (*s && !(p[i] = ft_substr(s, 0, end)))
+		p[i] = ft_substr(s, 0, end);
+		if (!p[i])
 			return (splt_clr(p));
 		s += end;
 	}

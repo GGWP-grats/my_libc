@@ -1,35 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/13 02:34:52 by wquenten          #+#    #+#             */
-/*   Updated: 2021/01/13 02:47:01 by wquenten         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include "get_next_line.h"
-
-int					find_endl(char *str, ssize_t size)
+char	*gnl_strdup(char *str, ssize_t size)
 {
-	int				i;
+	char	*new_str;
+	int		i;
 
 	i = -1;
-	while (++i < size && str[i])
-		if (str[i] == '\n')
-			return (i);
-	return (-1);
-}
-
-char				*gnl_strdup(char *str, ssize_t size)
-{
-	char			*new_str;
-	int				i;
-
-	i = -1;
-	if (!str || size < 0 || !(new_str = malloc(sizeof(*new_str) * (size + 1))))
+	if (!str || size < 0)
+		return (NULL);
+	new_str = malloc(sizeof(*new_str) * (size + 1));
+	if (!new_str)
 		return (NULL);
 	while (++i <= size)
 		new_str[i] = str[i];
@@ -37,15 +17,19 @@ char				*gnl_strdup(char *str, ssize_t size)
 	return (new_str);
 }
 
-int					rebuild_remainder(t_rem *remainder, int endl,
+int	rebuild_remainder(t_rem *remainder, int endl,
 									char **line, t_head *lst_head)
 {
-	char			*tmp;
+	char	*tmp;
 
-	if (!(*line = gnl_strdup(remainder->string, endl)))
+	*line = gnl_strdup(remainder->string, endl);
+	if (*line == NULL)
 		return (gnl_clear(lst_head, remainder, line, -1));
-	if ((remainder->size -= endl + 1) < 0 ||
-		!(tmp = gnl_strdup(&(remainder->string)[endl + 1], remainder->size)))
+	remainder->size -= endl + 1;
+	if (remainder->size < 0)
+		return (gnl_clear(lst_head, remainder, line, -1));
+	tmp = gnl_strdup(&(remainder->string)[endl + 1], remainder->size);
+	if (!tmp)
 		return (gnl_clear(lst_head, remainder, line, -1));
 	gnl_clear(lst_head, NULL, NULL, 0);
 	free(remainder->string);
@@ -53,50 +37,70 @@ int					rebuild_remainder(t_rem *remainder, int endl,
 	return (1);
 }
 
-int					read_line(int fd, char **line, t_rem *rm, t_head **lst_head)
+int	read_line(int fd, char **line, t_rem *rm, t_head **lst_head)
 {
-	char			*buf;
-	ssize_t			size;
-	ssize_t			endl;
+	t_read	r;
 
-	endl = -1;
-	size = 0;
-	while (endl == -1 && (buf = malloc(sizeof(*buf) * BUFFER_SIZE + 1)) &&
-			(size = read(fd, buf, BUFFER_SIZE)) > 0)
-		if ((endl = find_endl(buf, size)) > -1)
-			gnl_append_buff(lst_head, buf, endl);
-		else if (endl == -1)
-			gnl_append_buff(lst_head, buf, size);
-	if (size <= 0)
-		free(buf);
-	if (size > 0 && endl > -1 && ++endl < size && (rm->size = size - endl))
-		if (!(rm->string = gnl_strdup(&buf[endl], size - endl)))
-			size = -1;
-	if ((*lst_head)->overall_size > 0 && size != -1
-		&& ((*line = gnl_concat(lst_head))))
-		return (size ? 1 : 0);
-	else if (size != -1)
+	r = (t_read){.endl = -1, .size = 0};
+	while (r.endl == -1)
+	{
+		r.buf = malloc(sizeof(*(r.buf)) * BUFFER_SIZE + 1);
+		if (!r.buf)
+			return (gnl_clear(*lst_head, rm, line, -1));
+		r.size = read(fd, r.buf, BUFFER_SIZE);
+		if (r.size <= 0)
+			break ;
+		r.endl = find_endl(r.buf, r.size);
+		if (r.endl != -1)
+			gnl_append_buff(lst_head, r.buf, r.endl);
+		else if (r.endl == -1)
+			gnl_append_buff(lst_head, r.buf, r.size);
+	}
+	if (r.size <= 0)
+		free(r.buf);
+	return (read_check(r, line, rm, lst_head));
+}	
+
+int	read_check(t_read r, char **line, t_rem *rm, t_head **lst_head)
+{
+	if (r.size > 0 && r.endl > -1 && ++r.endl < r.size)
+	{
+		rm->size = r.size - r.endl;
+		rm->string = gnl_strdup(&r.buf[r.endl], r.size - r.endl);
+		if (NULL == rm->string)
+			r.size = -1;
+	}
+	if ((*lst_head)->overall_size > 0 && r.size != -1)
+	{
+		*line = gnl_concat(lst_head);
+		if (*line)
+			return (r.size > 0);
+	}
+	else if (r.size != -1)
 		return (gnl_clear(*lst_head, NULL, line, 0));
-	else
-		return (gnl_clear(*lst_head, rm, line, -1));
+	return (gnl_clear(*lst_head, rm, line, -1));
 }
 
-int					get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static t_rem	remainder[OPEN_MAX];
 	t_head			*lst_head;
 	ssize_t			endl;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0 ||
-			!(lst_head = malloc(sizeof(*lst_head))))
+	lst_head = malloc(sizeof(*lst_head));
+	if (fd < 0 || !line || BUFFER_SIZE <= 0
+		|| lst_head == NULL)
 		return (-1);
-	*lst_head = (t_head){NULL, NULL, 0};
-	if (remainder[fd].string && remainder[fd].size > 0 &&
-		(endl = find_endl(remainder[fd].string, remainder[fd].size)) > -1)
+	*lst_head = (t_head){0};
+	endl = find_endl(remainder[fd].string, remainder[fd].size);
+	if (remainder[fd].string && remainder[fd].size > 0 && endl != -1)
 		return (rebuild_remainder(&remainder[fd], endl, line, lst_head));
-	else if (remainder[fd].string &&
-			(!(gnl_append_buff(&lst_head, remainder[fd].string,
-			remainder[fd].size)) || (remainder[fd].string = NULL)))
-		return (gnl_clear(lst_head, &remainder[fd], line, 0));
+	else if (remainder[fd].string)
+	{
+		if (!(gnl_append_buff(&lst_head,
+					remainder[fd].string, remainder[fd].size)))
+			return (gnl_clear(lst_head, &remainder[fd], line, 0));
+		remainder[fd].string = NULL;
+	}
 	return (read_line(fd, line, &remainder[fd], &lst_head));
 }

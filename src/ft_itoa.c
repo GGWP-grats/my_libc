@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/06 20:48:05 by wquenten          #+#    #+#             */
-/*   Updated: 2021/02/06 20:49:17 by wquenten         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-int			get_int_wid(int n)
+int	get_int_wid(int n)
 {
 	int		i;
 
@@ -24,7 +12,7 @@ int			get_int_wid(int n)
 	return (i);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*s;
 	int		len;
@@ -33,11 +21,15 @@ char		*ft_itoa(int n)
 
 	l = n;
 	len = get_int_wid(n);
-	if (!(s = malloc(sizeof(*s) * (len + 1))))
+	s = malloc(sizeof(*s) * (len + 1));
+	if (!s)
 		return (NULL);
-	if (l < 0 && (sign = 1)
-			&& (l = -l))
+	if (l < 0)
+	{
+		sign = 1;
+		l = -l;
 		s[0] = '-';
+	}
 	else
 		sign = 0;
 	s[len] = '\0';

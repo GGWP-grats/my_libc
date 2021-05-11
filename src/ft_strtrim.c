@@ -6,13 +6,13 @@
 /*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 21:00:17 by wquenten          #+#    #+#             */
-/*   Updated: 2021/02/06 21:17:05 by wquenten         ###   ########.fr       */
+/*   Updated: 2021/05/09 20:14:29 by masai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	len;
 	size_t	i;
@@ -25,7 +25,8 @@ char		*ft_strtrim(char const *s1, char const *set)
 		len--;
 	while (len && ft_strchr(set, s1[len - 1]))
 		len--;
-	if (!(new = malloc(sizeof(char) * (len + 1))))
+	new = malloc(sizeof(char) * (len + 1));
+	if (new == NULL)
 		return (NULL);
 	i = -1;
 	while (++i < len)

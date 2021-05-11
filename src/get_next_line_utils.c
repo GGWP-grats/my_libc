@@ -1,22 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wquenten <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/13 02:37:50 by wquenten          #+#    #+#             */
-/*   Updated: 2021/01/13 02:42:42 by wquenten         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include "get_next_line.h"
-
-void		*gnl_append_buff(t_head **head, char *str, ssize_t size)
+void	*gnl_append_buff(t_head **head, char *str, ssize_t size)
 {
 	t_gnl	*new;
 
-	if (!(new = malloc(sizeof(*new))))
+	new = malloc(sizeof(*new));
+	if (NULL == new)
 		return (NULL);
 	str[size] = '\0';
 	new->next = NULL;
@@ -37,7 +26,7 @@ void		*gnl_append_buff(t_head **head, char *str, ssize_t size)
 	return (*head);
 }
 
-char		*gnl_concat(t_head **head)
+char	*gnl_concat(t_head **head)
 {
 	int		all_size;
 	t_gnl	*list;
@@ -46,7 +35,8 @@ char		*gnl_concat(t_head **head)
 	int		k;
 
 	all_size = (*head)->overall_size;
-	if ((!all_size || !(str = malloc(sizeof(*str) * all_size))))
+	str = malloc(sizeof(*str) * all_size);
+	if (NULL == str || 0 == all_size)
 		return (NULL);
 	list = (*head)->head;
 	k = 0;
@@ -65,7 +55,7 @@ char		*gnl_concat(t_head **head)
 	return (str);
 }
 
-int			gnl_clear(t_head *head, t_rem *remainder, char **line, int ret)
+int	gnl_clear(t_head *head, t_rem *remainder, char **line, int ret)
 {
 	t_gnl	*tmp;
 	t_gnl	*list;
@@ -92,4 +82,17 @@ int			gnl_clear(t_head *head, t_rem *remainder, char **line, int ret)
 	if (line)
 		*line = gnl_strdup("", 0);
 	return (ret);
+}
+
+int	find_endl(char *str, ssize_t size)
+{
+	int	i;
+
+	i = -1;
+	if (!str)
+		return (-1);
+	while (++i < size && str[i])
+		if (str[i] == '\n')
+			return (i);
+	return (-1);
 }
